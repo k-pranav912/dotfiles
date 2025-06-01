@@ -22,4 +22,4 @@ _darcs
 ^/LICENSE.*
 ^/COPYING
 
-.DS_STORE
+\.DS_STORE
