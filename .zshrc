@@ -63,9 +63,22 @@ zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion:*' menu no
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 
+# remove underline on filenames
+(( ${+ZSH_HIGHLIGHT_STYLES} )) || typeset -A ZSH_HIGHLIGHT_STYLES
+ZSH_HIGHLIGHT_STYLES[path]=none
+ZSH_HIGHLIGHT_STYLES[path_prefix]=none
+
 # Aliases
 alias ls='ls --color'
 alias vim='nvim'
 
-# Shell integrations
+# fzf integration
 eval "$(fzf --zsh)"
+
+# source any additional custom device specifc files
+if [ -d ~/.config/zsh ]; then
+  for file in ~/.config/zsh/*
+    do
+      source $file
+    done
+fi
