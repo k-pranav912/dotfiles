@@ -24,6 +24,10 @@ else
     config.window_decorations = "TITLE"
 end
 
+if utilities.is_linux then
+    config.enable_wayland = false
+end
+
 local keymaps = require("keymaps")
 keymaps.apply(config)
 
