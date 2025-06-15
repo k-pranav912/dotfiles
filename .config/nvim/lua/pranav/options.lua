@@ -29,8 +29,8 @@ local options = {
     number = true,                           -- set numbered lines
     relativenumber = true,                   -- set relative numbered lines
     signcolumn = "yes",                      -- always show the sign column, otherwise it would shift the text each time
-    wrap = true,                            -- display lines as one long line
-    scrolloff = 8,                           -- set cursor to alawys have {n} lines below and above
+    wrap = true,                             -- display lines as one long line
+    scrolloff = 999,                         -- set cursor to alawys have {n} lines below and above
     sidescrolloff = 8,
     guifont = "monospace:h17",               -- the font used in graphical neovim applications
     laststatus  = 2,
@@ -42,7 +42,7 @@ end
 
 
 -- autocmd to add empty lines below EOF to keep cursor centered
--- this supersedes the scrolloff option
+-- this with scrolloff = 999 ensures both mouse and keyboard scrolling is consistent
 vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
   desc = "Center cursor",
   group = vim.api.nvim_create_augroup("CenterCursor", { clear = true }),
