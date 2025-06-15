@@ -7,6 +7,7 @@ return {
         require("nvim-treesitter.install").update({ with_sync = true })()
     end,
     opts = {
+        auto_install = true,
         highlight = { enable = true },
         indent = { enable = true },
         ensure_installed = {
@@ -20,6 +21,7 @@ return {
             "markdown_inline",
             "printf",
             "python",
+            "query",
             "regex",
             "toml",
             "vim",
