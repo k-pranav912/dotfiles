@@ -39,3 +39,18 @@ local options = {
 for key, value in pairs(options) do
     vim.opt[key] = value
 end
+
+
+-- autocmd to add empty lines below EOF to keep cursor centered
+-- this supersedes the scrolloff option
+vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+  desc = "Center cursor",
+  group = vim.api.nvim_create_augroup("CenterCursor", { clear = true }),
+  callback = function()
+    local mode = vim.fn.mode(1)
+    if mode == "i" then
+      return
+    end
+    vim.cmd "normal! zz"
+  end,
+})
