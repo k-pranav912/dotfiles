@@ -44,7 +44,7 @@ return {
                 goto_next_start = {
                     ["<Leader>gnfs"] = { query = "@function.outer", desc = "Go to next function start" },
                     ["<Leader>gncs"] = { query = "@class.outer", desc = "Go to next class start" },
-                    ["<Leader>gnps"] = { query = "@parameter.inner", desc = "Go to nexr parameter start" },
+                    ["<Leader>gnps"] = { query = "@parameter.inner", desc = "Go to next parameter start" },
                 },
                 goto_next_end = {
                     ["<Leader>gnfe"] = { query = "@function.outer", desc = "Go to next function end" },
