@@ -9,6 +9,6 @@ local keymaps = {
     { "n", "<leader>fc", builtin.current_buffer_fuzzy_find, { desc = "Telescope find in current buffer"} },
 }
 
-for idx, keymap_args in ipairs(keymaps) do
-    vim.keymap.set(unpack(keymap_args))
+for _, keymap_args in ipairs(keymaps) do
+    vim.keymap.set(table.unpack(keymap_args))
 end
