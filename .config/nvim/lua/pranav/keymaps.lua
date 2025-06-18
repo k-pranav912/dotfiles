@@ -10,5 +10,5 @@ local keymaps = {
 }
 
 for _, keymap_args in ipairs(keymaps) do
-    vim.keymap.set(table.unpack(keymap_args))
+    vim.keymap.set(unpack(keymap_args))
 end
