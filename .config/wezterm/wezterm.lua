@@ -11,8 +11,7 @@ config.initial_rows = 30
 
 -- change the font size and color scheme
 config.font = wezterm.font_with_fallback {
-    { family = "MesloLGS NF" },
-    { family = "MesloLGS Nerd Font" },
+    "MesloLGS Nerd Font",
 }
 config.font_size = 13
 config.color_scheme = "Adwaita Dark"
