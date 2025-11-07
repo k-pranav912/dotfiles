@@ -50,12 +50,20 @@ wezterm.on("update-right-status", function(window, _)
         ARROW_FOREGROUND = { Foreground = { Color = "#1e2030" } }
     end -- arror color based on if tab is first pane
 
-    window:set_left_status(wezterm.format {
-        { Background = { Color = "#b7bdf8" } },
-        { Text = prefix },
-        ARROW_FOREGROUND,
-        { Text = SOLID_LEFT_ARROW }
-    })
+    if utilities.is_linux then
+        window:set_left_status(wezterm.format {
+            { Background = { Color = "#b7bdf8" } },
+            { Text = prefix },
+            ARROW_FOREGROUND,
+            { Text = SOLID_LEFT_ARROW },
+        })
+    else
+        window:set_right_status(wezterm.format {
+            { Background = { Color = "#b7bdf8" } },
+            { Text = prefix },
+        })
+    end
+
 end)
 
 
