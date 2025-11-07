@@ -36,30 +36,22 @@ if utilities.is_linux then
     config.use_fancy_tab_bar = false
 end
 
+-- leader key visualization
 wezterm.on("update-right-status", function(window, _)
-    local SOLID_LEFT_ARROW = ""
-    local ARROW_FOREGROUND = { Foreground = { Color = "#000000" } }
     local prefix = ""
 
     if window:leader_is_active() then
-        prefix = " " .. utf8.char(0x1f63a) .. " " -- ocean wave icon
-        SOLID_LEFT_ARROW = utf8.char(0xe0b2)
+        prefix = " " .. utf8.char(0x1f63a) .. " " -- cat icon
     end
 
-    if window:active_tab():tab_id() ~= 0 then
-        ARROW_FOREGROUND = { Foreground = { Color = "#1e2030" } }
-    end -- arror color based on if tab is first pane
-
-    if utilities.is_linux then
-        window:set_left_status(wezterm.format {
-            { Background = { Color = "#b7bdf8" } },
+    if utilities.is_darwin then
+        window:set_right_status(wezterm.format {
+            { Background = { Color = "#1e1e1e" } },
             { Text = prefix },
-            ARROW_FOREGROUND,
-            { Text = SOLID_LEFT_ARROW },
         })
     else
-        window:set_right_status(wezterm.format {
-            { Background = { Color = "#b7bdf8" } },
+        window:set_left_status(wezterm.format {
+            { Background = { Color = "#1e1e1e" } },
             { Text = prefix },
         })
     end
