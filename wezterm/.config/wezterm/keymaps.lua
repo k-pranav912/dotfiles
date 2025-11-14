@@ -4,7 +4,7 @@ local wezterm = require 'wezterm'
 local module = {}
 
 -- set the leader key
-local leader = { key = ' ', mods = 'SHIFT', timeout_milliseconds = 1000 }
+local leader = { key = ' ', mods = 'CTRL', timeout_milliseconds = 1000 }
 
 local keys = {
     {
