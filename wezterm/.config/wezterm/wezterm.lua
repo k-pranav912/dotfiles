@@ -16,6 +16,10 @@ config.font = wezterm.font_with_fallback {
 config.font_size = 13
 config.color_scheme = "Adwaita Dark"
 
+config.window_padding = {
+    bottom = 0,
+}
+
 -- window decorations
 if utilities.is_darwin or utilities.is_windows then
     config.window_decorations = "INTEGRATED_BUTTONS | RESIZE"
@@ -31,7 +35,7 @@ end
 
 -- tab bar modifications
 if utilities.is_linux then
-    config.hide_tab_bar_if_only_one_tab = true
+    config.hide_tab_bar_if_only_one_tab = false
     config.tab_bar_at_bottom = true
     config.use_fancy_tab_bar = false
 end
