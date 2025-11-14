@@ -5,3 +5,4 @@ vim.g.maplocalleader = " "
 require("pranav.options")
 require("pranav.lazy_init")
 require("pranav.keymaps")
+require("pranav.lsp")
