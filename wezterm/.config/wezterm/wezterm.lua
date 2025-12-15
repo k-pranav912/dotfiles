@@ -9,6 +9,8 @@ local config = wezterm.config_builder()
 config.initial_cols = 100
 config.initial_rows = 30
 
+config.dpi = 192
+
 -- change the font size and color scheme
 config.font = wezterm.font_with_fallback {
     "MesloLGS Nerd Font",
@@ -27,10 +29,6 @@ elseif utilities.is_linux then
     config.window_decorations = "NONE"
 else
     config.window_decorations = "TITLE"
-end
-
-if utilities.is_linux then
-    config.enable_wayland = false
 end
 
 -- tab bar modifications
