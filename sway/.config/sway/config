@@ -185,6 +185,10 @@ include io_config
 
     # Move focus to the parent container
     bindsym $mod+a focus parent
+
+    # Move focus to the child container
+    bindsym $mod+Shift+a focus child
+
 #
 # Scratchpad:
 #
