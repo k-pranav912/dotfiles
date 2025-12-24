@@ -185,7 +185,8 @@
             "car": "",
             "default": ["", "", ""]
         },
-        "on-click": "pavucontrol"
+        "on-click": "pavucontrol",
+        "reverse-scrolling": true
     },
     "custom/media": {
         "format": "{icon} {text}",
