@@ -37,3 +37,17 @@ vim.api.nvim_create_autocmd('LspAttach', {
             vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic" })
     end,
 })
+
+
+-- setup options for zig
+
+-- disable format-on-save from ziglang/zig.nvim
+vim.g.zig_fmt_autosave = 0
+
+-- Formatting with ZSL matches `zig fmt`
+vim.api.nvim_create_autocmd('BufWritePre',{
+  pattern = {"*.zig", "*.zon"},
+  callback = function(ev)
+        vim.lsp.buf.format()
+  end
+})
