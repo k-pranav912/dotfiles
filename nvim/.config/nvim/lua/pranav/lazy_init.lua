@@ -28,6 +28,7 @@ require("lazy").setup({
     checker = { 
         enabled = true,
         frequency = 3600 * 24,
+        notify = false,
     },
     ui = {
         border = "bold",
