@@ -9,7 +9,10 @@ local config = wezterm.config_builder()
 config.initial_cols = 100
 config.initial_rows = 30
 
-config.dpi = 192
+-- linux specific dpi for wayland for my devices
+if utilities.is_linux then
+    config.dpi = 192
+end
 
 -- change the font size and color scheme
 config.font = wezterm.font_with_fallback {
