@@ -229,6 +229,9 @@ bindsym $mod+r mode "resize"
 # Lock Screen
 bindsym $mod+Ctrl+l exec swaylock
 
+# Enable sway session target
+exec_always systemctl --user restart sway-session.target
+
 # Include configs from 3 locations:
 #  - /usr/share/sway/config.d
 #  - /etc/sway/config.d
