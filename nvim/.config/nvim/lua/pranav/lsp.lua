@@ -41,6 +41,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
 -- setup options for zig
 
+vim.lsp.enable('zls')
+
 -- disable format-on-save from ziglang/zig.nvim
 vim.g.zig_fmt_autosave = 0
 
