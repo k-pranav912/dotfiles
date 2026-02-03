@@ -23,7 +23,7 @@
         // "memory",
         // "temperature",
         "backlight",
-        "sway/language",
+        // "sway/language",
         "battery",
         "clock",
         "tray"
@@ -105,9 +105,14 @@
     "clock": {
         // "timezone": "America/New_York",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-	"format": "{:%H:%M:%S}",
-	"interval": 1,
-        "format-alt": "{:%Y-%m-%d}"
+	    "format": "{:%H:%M:%S}",
+	    "interval": 1,
+        "format-alt": "{:%Y-%m-%d}",
+        "calendar": {
+            "format": {
+                "today": "<span color='#bdff00'><b>{}</b></span>"
+            }
+        }
     },
     "cpu": {
         "format": "{usage}% ",
