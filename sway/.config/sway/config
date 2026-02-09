@@ -229,6 +229,9 @@ bindsym $mod+r mode "resize"
 # Lock Screen
 bindsym $mod+Ctrl+l exec swaylock
 
+# Start Kanshi
+exec_always systemctl --user restart kanshi.service
+
 # Enable sway session target
 exec_always systemctl --user restart sway-session.target
 
