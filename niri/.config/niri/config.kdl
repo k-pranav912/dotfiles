@@ -263,6 +263,7 @@ layout {
         // bottom 1
     }
     tab-indicator {
+        place-within-column
         width 1
         gap 0
         active-color "yellow"
