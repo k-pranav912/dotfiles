@@ -17,7 +17,7 @@ local options = {
     splitbelow = true,                       -- force all horizontal splits to go below current window
     splitright = true,                       -- force all vertical splits to go to the right of current window
     swapfile = false,                        -- creates a swapfile
-    termguicolors = false,                   -- set term gui colors (most terminals support this)
+    termguicolors = true,                    -- set term gui colors (most terminals support this)
     timeoutlen = 1000,                       -- time to wait for a mapped sequence to complete (in milliseconds)
     undofile = false,                        -- enable persistent undo
     updatetime = 300,                        -- faster completion (4000ms default)
@@ -33,24 +33,9 @@ local options = {
     scrolloff = 999,                         -- set cursor to alawys have {n} lines below and above
     sidescrolloff = 8,
     guifont = "monospace:h17",               -- the font used in graphical neovim applications
-    laststatus  = 2,
+    laststatus = 3,                          -- global statusline
 }
 
 for key, value in pairs(options) do
     vim.opt[key] = value
 end
-
-
--- autocmd to add empty lines below EOF to keep cursor centered
--- this with scrolloff = 999 ensures both mouse and keyboard scrolling is consistent
-vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
-  desc = "Center cursor",
-  group = vim.api.nvim_create_augroup("CenterCursor", { clear = true }),
-  callback = function()
-    local mode = vim.fn.mode(1)
-    if mode == "i" then
-      return
-    end
-    vim.cmd "normal! zz"
-  end,
-})
