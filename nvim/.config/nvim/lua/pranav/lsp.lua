@@ -1,3 +1,10 @@
+-- Use cmp-nvim-lsp capabilities to enable completion
+local capabilities = {}
+local has_cmp, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+if has_cmp then
+    capabilities = cmp_nvim_lsp.default_capabilities()
+end
+
 -- setup sourcekit-lsp
 vim.lsp.config('sourcekit', {
     cmd = { "sourcekit-lsp" },
@@ -5,13 +12,13 @@ vim.lsp.config('sourcekit', {
     filetypes = { "swift", "objc", "objcpp" },
 
     -- Recommended capability for SourceKit-LSP to detect file changes
-    capabilities = {
+    capabilities = vim.tbl_deep_extend("force", capabilities, {
         workspace = {
             didChangeWatchedFiles = {
                 dynamicRegistration = true,
             },
         },
-    },
+    }),
 
 })
 
@@ -19,7 +26,8 @@ vim.lsp.enable('sourcekit')
 
 -- setup clangd
 vim.lsp.config('clangd', {
-    filetypes = {"c", "cpp", "cuda" }
+    filetypes = {"c", "cpp", "cuda" },
+    capabilities = capabilities,
 })
 
 vim.api.nvim_create_autocmd('LspAttach', {
