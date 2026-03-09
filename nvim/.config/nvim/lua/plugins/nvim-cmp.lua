@@ -1,5 +1,6 @@
 return {
   'hrsh7th/nvim-cmp', -- The main completion plugin
+  event = "InsertEnter",
   dependencies = {
     'neovim/nvim-lspconfig', -- Required to hook into LSP
     'hrsh7th/cmp-nvim-lsp',  -- LSP source for nvim-cmp
