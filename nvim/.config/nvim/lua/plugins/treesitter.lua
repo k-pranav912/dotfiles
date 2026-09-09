@@ -9,7 +9,10 @@ return {
     opts = {
         auto_install = true,
         highlight = { enable = true },
-        indent = { enable = true },
+        indent = { 
+            enable = true,
+            disable = { "c", "cpp", },
+        },
         ensure_installed = {
             "bash",
             "c",
