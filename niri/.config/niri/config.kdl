@@ -37,6 +37,7 @@ input {
         // drag-lock
         natural-scroll
         click-method "clickfinger"
+        scroll-factor 0.5
         // accel-speed 0.2
         // accel-profile "flat"
         // scroll-method "two-finger"
@@ -280,12 +281,13 @@ layout {
 // This line starts waybar, a commonly used bar for Wayland compositors.
 spawn-at-startup "waybar"
 
-spawn-at-startup "systemctl" "--user" "restart" "kanshi.service"
+spawn-at-startup "systemctl" "--user" "restart" "shikane.service"
 
 // Start swayidle at launch
 spawn-at-startup "swayidle" "-w" \
     "timeout" "300" "swaylock -f" \
-    "timeout" "600" "niri msg action power-off-monitors" \
+    "timeout" "450" "niri msg action power-off-monitors" \
+    "timeout" "600" "systemctl suspend" \
     "before-sleep" "swaylock -f"
 
 // set background
