@@ -24,6 +24,18 @@ vim.lsp.config('sourcekit', {
 
 vim.lsp.enable('sourcekit')
 
+-- setup copilot lsp
+vim.lsp.config('copilot', {
+    settings = {
+        telemetry = {
+            -- change telemetry to on
+            telemetryLevel = 'off',
+        },
+    },
+})
+
+vim.lsp.enable('copilot')
+
 -- setup clangd
 vim.lsp.config('clangd', {
     filetypes = {"c", "cpp", "cuda" },
