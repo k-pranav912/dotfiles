@@ -1,110 +1,96 @@
+local languages = {
+    "bash",
+    "c",
+    "diff",
+    "json",
+    "lua",
+    "luadoc",
+    "markdown",
+    "markdown_inline",
+    "printf",
+    "python",
+    "query",
+    "regex",
+    "toml",
+    "vim",
+    "vimdoc",
+    "xml",
+    "yaml",
+}
+
 return {
     "nvim-treesitter/nvim-treesitter",
+    branch = "main",
     dependencies = {
-        { "nvim-treesitter/nvim-treesitter-textobjects" },
+        { "nvim-treesitter/nvim-treesitter-textobjects", branch = "main" },
     },
-    build = function()
-        require("nvim-treesitter.install").update({ with_sync = true })()
-    end,
+    lazy = false,
+    build = ":TSUpdate",
     opts = {
-        auto_install = true,
-        highlight = { enable = true },
-        indent = { 
-            enable = true,
-            disable = { "c", "cpp", },
-        },
-        ensure_installed = {
-            "bash",
-            "c",
-            "diff",
-            "json",
-            "lua",
-            "luadoc",
-            "markdown",
-            "markdown_inline",
-            "printf",
-            "python",
-            "query",
-            "regex",
-            "toml",
-            "vim",
-            "vimdoc",
-            "xml",
-            "yaml",
-        },
-        incremental_selection = {
-            enable = true,
-            keymaps = {
-                init_selection = "<Leader>ss",
-                node_incremental = "<Leader>si",
-                scope_incremental = false,
-                node_decremental = "<Leader>sd",
-            },
-        },
         textobjects = {
-            move = {
-                enable = true,
-                goto_next_start = {
-                    ["<Leader>gnfs"] = { query = "@function.outer", desc = "Go to next function start" },
-                    ["<Leader>gncs"] = { query = "@class.outer", desc = "Go to next class start" },
-                    ["<Leader>gnps"] = { query = "@parameter.inner", desc = "Go to next parameter start" },
-                },
-                goto_next_end = {
-                    ["<Leader>gnfe"] = { query = "@function.outer", desc = "Go to next function end" },
-                    ["<Leader>gnce"] = { query = "@class.outer", desc = "Go to next class end" },
-                    ["<Leader>gnpe"] = { query = "@parameter.inner", desc = "Go to next parameter end" },
-                },
-                goto_previous_start = {
-                    ["<Leader>gpfs"] = { query = "@function.outer", desc = "Go to previous function start" },
-                    ["<Leader>gpcs"] = { query = "@class.outer", desc = "Go to previous class start" },
-                    ["<Leader>gpps"] = { query = "@parameter.inner", desc = "Go to previous parameter start" },
-                },
-                goto_previous_end = {
-                    ["<Leader>gpfe"] = { query = "@function.outer", desc = "Go to previous function end" },
-                    ["<Leader>gpce"] = { query = "@class.outer", desc = "Go to previous class end" },
-                    ["<Leader>gppe"] = { query = "@parameter.inner", desc = "Go to previous parameter end" },
-                },
-            },
             select = {
-                enable = true,
-
-                -- Automatically jump forward to textobj, similar to targets.vim
                 lookahead = true,
-
-                keymaps = {
-                    ["af"] = { query = "@function.outer", desc = "Select outer part of a function region" },
-                    ["if"] = { query = "@function.inner", desc = "Select inner part of a function region" },
-                    ["ac"] = "@class.outer",
-                    ["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" },
-                    -- You can also use captures from other query groups like `locals.scm`
-                    ["as"] = { query = "@local.scope", query_group = "locals", desc = "Select language scope" },
-                },
-                -- You can choose the select mode (default is charwise 'v')
-                --
-                -- Can also be a function which gets passed a table with the keys
-                -- * query_string: eg '@function.inner'
-                -- * method: eg 'v' or 'o'
-                -- and should return the mode ('v', 'V', or '<c-v>') or a table
-                -- mapping query_strings to modes.
                 selection_modes = {
-                    ['@parameter.outer'] = 'v', -- charwise
-                    ['@function.outer'] = 'V', -- linewise
-                    ['@class.outer'] = '<c-v>', -- blockwise
+                    ["@parameter.outer"] = "v",
+                    ["@function.outer"] = "V",
+                    ["@class.outer"] = "<c-v>",
                 },
-                -- If you set this to `true` (default is `false`) then any textobject is
-                -- extended to include preceding or succeeding whitespace. Succeeding
-                -- whitespace has priority in order to act similarly to eg the built-in
-                -- `ap`.
-                --
-                -- Can also be a function which gets passed a table with the keys
-                -- * query_string: eg '@function.inner'
-                -- * selection_mode: eg 'v'
-                -- and should return true or false
                 include_surrounding_whitespace = true,
+            },
+            move = {
+                set_jumps = true,
             },
         },
     },
     config = function(_, opts)
-        require("nvim-treesitter.configs").setup(opts)
+        require("nvim-treesitter").setup()
+        require("nvim-treesitter").install(languages)
+        require("nvim-treesitter-textobjects").setup(opts.textobjects)
+
+        vim.api.nvim_create_autocmd("FileType", {
+            pattern = {
+                "bash", "c", "diff", "json", "lua", "markdown", "python",
+                "query", "regex", "toml", "vim", "vimdoc", "xml", "yaml",
+            },
+            callback = function(args)
+                vim.treesitter.start(args.buf)
+                if args.match ~= "c" and args.match ~= "cpp" then
+                    vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+                end
+            end,
+        })
+
+        local select = require("nvim-treesitter-textobjects.select").select_textobject
+        for _, mapping in ipairs({
+            { "af", "@function.outer", "Select outer part of a function region" },
+            { "if", "@function.inner", "Select inner part of a function region" },
+            { "ac", "@class.outer", "Select outer part of a class region" },
+            { "ic", "@class.inner", "Select inner part of a class region" },
+            { "as", "@local.scope", "Select language scope", "locals" },
+        }) do
+            vim.keymap.set({ "x", "o" }, mapping[1], function()
+                select(mapping[2], mapping[4] or "textobjects")
+            end, { desc = mapping[3] })
+        end
+
+        local move = require("nvim-treesitter-textobjects.move")
+        for _, mapping in ipairs({
+            { "<Leader>gnfs", "goto_next_start", "@function.outer", "Go to next function start" },
+            { "<Leader>gncs", "goto_next_start", "@class.outer", "Go to next class start" },
+            { "<Leader>gnps", "goto_next_start", "@parameter.inner", "Go to next parameter start" },
+            { "<Leader>gnfe", "goto_next_end", "@function.outer", "Go to next function end" },
+            { "<Leader>gnce", "goto_next_end", "@class.outer", "Go to next class end" },
+            { "<Leader>gnpe", "goto_next_end", "@parameter.inner", "Go to next parameter end" },
+            { "<Leader>gpfs", "goto_previous_start", "@function.outer", "Go to previous function start" },
+            { "<Leader>gpcs", "goto_previous_start", "@class.outer", "Go to previous class start" },
+            { "<Leader>gpps", "goto_previous_start", "@parameter.inner", "Go to previous parameter start" },
+            { "<Leader>gpfe", "goto_previous_end", "@function.outer", "Go to previous function end" },
+            { "<Leader>gpce", "goto_previous_end", "@class.outer", "Go to previous class end" },
+            { "<Leader>gppe", "goto_previous_end", "@parameter.inner", "Go to previous parameter end" },
+        }) do
+            vim.keymap.set({ "n", "x", "o" }, mapping[1], function()
+                move[mapping[2]](mapping[3], "textobjects")
+            end, { desc = mapping[4] })
+        end
     end,
 }
