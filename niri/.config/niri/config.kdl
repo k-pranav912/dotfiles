@@ -393,6 +393,7 @@ binds {
     // Suggested binds for running programs: terminal, app launcher, screen locker.
     Mod+Return hotkey-overlay-title="Open a Terminal: wezterm" { spawn "wezterm"; }
     Mod+D hotkey-overlay-title="Run an Application: rofi" { spawn "rofi" "-terminal" "wezterm" "-show" "combi" "-combi-modes" "drun#run" "-modes" "combi"; }
+    Mod+Shift+S hotkey-overlay-title="Show System Status" { spawn "system-status-notify"; }
     Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
 
     // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.

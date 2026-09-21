@@ -1,0 +1,53 @@
+#!/bin/sh
+
+set -eu
+
+if command -v notify-send >/dev/null 2>&1; then
+    notify_command=notify-send
+elif command -v dunstify >/dev/null 2>&1; then
+    notify_command=dunstify
+else
+    printf '%s\n' 'system-status-notify: notify-send or dunstify is required' >&2
+    exit 1
+fi
+
+battery='Unavailable'
+for battery_path in /sys/class/power_supply/BAT*; do
+    [ -e "$battery_path/capacity" ] || continue
+
+    battery_percentage=$(cat "$battery_path/capacity")
+    battery_status=$(cat "$battery_path/status" 2>/dev/null || printf '%s' 'Unknown')
+    battery="$battery_percentage% ($battery_status)"
+    break
+done
+
+get_volume() {
+    volume_output=$(wpctl get-volume "$1" 2>/dev/null || true)
+    [ -n "$volume_output" ] || return 0
+
+    volume_percentage=$(printf '%s\n' "$volume_output" |
+        awk '{ printf "%.0f%%", $2 * 100; exit }')
+    volume="$volume_percentage"
+    case "$volume_output" in
+        *'[MUTED]'*) volume="$volume (Muted)" ;;
+    esac
+    printf '%s' "$volume"
+}
+
+audio='Unavailable'
+microphone='Unavailable'
+if command -v wpctl >/dev/null 2>&1; then
+    audio=$(get_volume @DEFAULT_AUDIO_SINK@)
+    [ -n "$audio" ] || audio='Unavailable'
+    microphone=$(get_volume @DEFAULT_AUDIO_SOURCE@)
+    [ -n "$microphone" ] || microphone='Unavailable'
+fi
+
+"$notify_command" \
+    -u low \
+    -t 5000 \
+    'System status' \
+    "Battery: $battery
+Audio: $audio
+Microphone: $microphone
+Time: $(date '+%F %a, %H:%M')"
