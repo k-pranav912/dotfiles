@@ -73,3 +73,36 @@ vim.api.nvim_create_autocmd('BufWritePre',{
         vim.lsp.buf.format()
   end
 })
+
+-- setup ocaml
+vim.lsp.config('ocamllsp', {
+  cmd = { 'ocamllsp' },
+  filetypes = {
+    'ocaml',
+    'ocaml.interface',
+    'ocaml.menhir',
+    'ocaml.ocamllex',
+    'dune',
+    'reason'
+  },
+  root_markers = {
+    { 'dune-project', 'dune-workspace' },
+    { "*.opam", "esy.json", "package.json" },
+    '.git'
+  },
+  settings = {},
+})
+
+vim.lsp.enable('ocamllsp')
+
+local opam_prefix = vim.env.OPAM_SWITCH_PREFIX
+if not opam_prefix or opam_prefix == "" then
+  opam_prefix = vim.trim(vim.fn.system("opam var prefix 2>/dev/null"))
+end
+
+if vim.v.shell_error == 0 and opam_prefix ~= "" then
+  local ocp_indent_vim = opam_prefix .. "/share/ocp-indent/vim"
+  if vim.fn.isdirectory(ocp_indent_vim) == 1 then
+    vim.opt.rtp:prepend(ocp_indent_vim)
+  end
+end
