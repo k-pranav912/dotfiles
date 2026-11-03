@@ -71,6 +71,8 @@ ZSH_HIGHLIGHT_STYLES[path_prefix]=none
 # Aliases
 alias ls='ls --color'
 alias vim='nvim'
+alias lla='ls -l -a'
+
 
 # fzf integration
 eval "$(fzf --zsh)"
