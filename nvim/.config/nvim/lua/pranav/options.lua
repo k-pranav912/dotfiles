@@ -39,3 +39,7 @@ local options = {
 for key, value in pairs(options) do
     vim.opt[key] = value
 end
+
+if vim.g.vscode then
+    vim.opt.cmdheight = 3
+end
