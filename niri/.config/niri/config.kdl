@@ -343,7 +343,7 @@ window-rule {
 
 // btop open window to fullscreen
 window-rule {
-    match app-id="btop"
+    match title="(?i)btop"
     default-column-width { proportion 1.0; }
 }
 
