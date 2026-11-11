@@ -353,12 +353,10 @@ window-rule {
     default-column-width { proportion 1.0; }
 }
 
-// Open the Firefox picture-in-picture player as floating by default.
+// Open Firefox or LibreWolf picture-in-picture players as floating by default.
 window-rule {
-    // This app-id regular expression will work for both:
-    // - host Firefox (app-id is "firefox")
-    // - Flatpak Firefox (app-id is "org.mozilla.firefox")
-    match app-id=r#"firefox$"# title="^Picture-in-Picture$"
+    // Match native and Flatpak browser app IDs.
+    match app-id=r#"(?i)(firefox|librewolf)$"# title="^Picture-in-Picture$"
     open-floating true
 }
 
