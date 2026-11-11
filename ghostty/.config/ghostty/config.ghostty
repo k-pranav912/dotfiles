@@ -1,0 +1,25 @@
+# includes
+config-file = fonts.ghostty
+config-file = theme.ghostty
+config-file = keybinds.ghostty
+
+# window styling
+window-decoration = none
+window-width = 100
+window-height = 30
+window-padding-x = 8
+window-padding-y = 8,0
+window-padding-balance = false
+window-new-tab-position = end
+window-show-tab-bar = always
+gtk-tabs-location = bottom
+gtk-wide-tabs = false
+gtk-toolbar-style = flat
+
+# cursor styling
+cursor-style = block
+cursor-style-blink = false
+shell-integration-features = no-cursor
+
+# pane behavior
+confirm-close-surface = false
